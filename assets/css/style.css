@@ -27,29 +27,17 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
-.logo-placeholder {
-  font-size: 14px;
-  background: #000;
-  color: #fff;
-  padding: 5px 10px;
+.logo {
+  height: auto;
+  width: 150px;
+  margin: 0 auto;
+  display: block;
+  background-color: #0000ff; /* azul Mondrian */
+  padding: 10px 10px;
   border: 2px solid #fff;
-  
-}
-.tetris-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
-  border: 3px solid #000;
-  background: #111;
-  padding: 4px;
-}
-
-#tetris {
-  image-rendering: pixelated;
-  background-color: #222;
 }
 
 .audio-player {
@@ -232,4 +220,46 @@ footer {
 #btn-ir-arriba:hover {
   background-color: #000;
   color: #ffcc00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    text-align: center;
+    padding: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  nav a {
+    font-size: 10px;
+    padding: 6px 10px;
+    word-break: break-word;
+  }
+
+  h1 {
+    font-size: 12px;
+  }
+
+  .logo {
+    width: 100px;
+    margin: 10px auto;
+  }
+
+  .audio-player {
+    width: 90%;
+    height: 120px;
+    margin: 10px auto;
+  }
 }
