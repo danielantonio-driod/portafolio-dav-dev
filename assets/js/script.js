@@ -1,33 +1,26 @@
+// Datos de los proyectos
 const proyectosData = [
   {
-    titulo: 'Control de Órdenes',
-    descripcion: 'Sistema para registrar y gestionar órdenes en un taller.',
+    titulo: 'Informativo_Cyberguard',
+    descripcion: 'Pagina informativa de cyberseguridad.',
     imagenes: [
-      'https://via.placeholder.com/600x400/ffcc00/000000?text=Proyecto+1-1',
-      'https://via.placeholder.com/600x400/0000ff/ffffff?text=Proyecto+1-2',
-      'https://via.placeholder.com/600x400/ffcc00/000000?text=Proyecto+1-3'
+      '/assets/img/cg1.jpg',
+      '/assets/img/cg2.jpg',
+      '/assets/img/cg3.jpg'
     ],
-    repo: 'https://github.com/usuario/control-ordenes'
+    repo: 'https://github.com/danielantonio-driod/m-dulo_2/tree/master/cyberguard'
   },
   {
-    titulo: 'Agenda Médica',
-    descripcion: 'App para gestionar citas médicas fácilmente.',
-    imagenes: [
-      'https://via.placeholder.com/600x400/ff0000/ffffff?text=Proyecto+2-1',
-      'https://via.placeholder.com/600x400/ffffff/000000?text=Proyecto+2-2',
-      'https://via.placeholder.com/600x400/0000ff/ffffff?text=Proyecto+2-3'
-    ],
-    repo: 'https://github.com/usuario/agenda-medica'
+    titulo: 'Proyecto 2',
+    descripcion: 'Este proyecto está en desarrollo, vuelve pronto.',
+    imagenes: [],
+    repo: '#'
   },
   {
-    titulo: 'Sistema de Inventario',
-    descripcion: 'Herramienta para controlar inventario con alertas inteligentes.',
-    imagenes: [
-      'https://via.placeholder.com/600x400/000000/ffffff?text=Proyecto+3-1',
-      'https://via.placeholder.com/600x400/ffcc00/000000?text=Proyecto+3-2',
-      'https://via.placeholder.com/600x400/0000ff/ffffff?text=Proyecto+3-3'
-    ],
-    repo: 'https://github.com/usuario/inventario'
+    titulo: 'Proyecto 3',
+    descripcion: 'Este proyecto está en desarrollo, vuelve pronto.',
+    imagenes: [],
+    repo: '#'
   },
   {
     titulo: 'Proyecto 4',
@@ -46,36 +39,43 @@ const proyectosData = [
 let intervalId;
 let currentModalIndex = 0;
 
-function abrirModal(titulo, descripcion, imagenes = [], repo = '#') {
+// Abrir modal dinámicamente desde JS y mostrar imágenes en carrusel
+function abrirProyectoPorIndice(index) {
+  currentModalIndex = index;
+  const { titulo, descripcion, imagenes, repo } = proyectosData[index];
   const modal = document.getElementById('modal');
   const galeria = document.getElementById('modal-imagenes');
   const link = document.getElementById('modal-github');
 
+  // Limpiar contenido anterior
+  galeria.innerHTML = '';
+  clearInterval(intervalId);
+
+  // Asignar contenido
   document.getElementById('modal-titulo').innerText = titulo;
   document.getElementById('modal-descripcion').innerText = descripcion;
   link.href = repo;
 
-  galeria.innerHTML = '';
-
+  // Crear galería de imágenes rotativas
   if (imagenes.length > 0) {
-    let index = 0;
+    let indexImg = 0;
     const img = document.createElement('img');
-    img.src = imagenes[index];
+    img.src = imagenes[indexImg];
     img.alt = titulo;
     img.style.width = '100%';
     galeria.appendChild(img);
 
+    // Rotar imágenes automáticamente
     intervalId = setInterval(() => {
-      index = (index + 1) % imagenes.length;
-      img.src = imagenes[index];
+      indexImg = (indexImg + 1) % imagenes.length;
+      img.src = imagenes[indexImg];
     }, 2500);
   }
 
   modal.classList.remove('oculto');
 
-  // Agregar botones de navegación al modal (después del contenido)
-  const navControlesExistente = document.getElementById('modal-controles');
-  if (!navControlesExistente) {
+  // Agregar controles de navegación solo una vez
+  if (!document.getElementById('modal-controles')) {
     const controles = document.createElement('div');
     controles.id = 'modal-controles';
     controles.classList.add('modal-nav');
@@ -85,25 +85,27 @@ function abrirModal(titulo, descripcion, imagenes = [], repo = '#') {
     `;
     document.querySelector('.modal-contenido').appendChild(controles);
   }
-}
 
-function abrirProyectoPorIndice(index) {
-  currentModalIndex = index;
-  const proyecto = proyectosData[index];
-  abrirModal(proyecto.titulo, proyecto.descripcion, proyecto.imagenes, proyecto.repo);
-
-  // Sincronizar el fondo del carrusel
+  // Sincronizar fondo del carrusel
   const slides = document.querySelectorAll('.proyecto');
   slides.forEach(s => s.classList.add('oculto'));
   if (slides[index]) slides[index].classList.remove('oculto');
   currentSlide = index;
 }
 
+// Navegación entre proyectos en el modal
+function navegarModal(direccion) {
+  currentModalIndex = (currentModalIndex + direccion + proyectosData.length) % proyectosData.length;
+  abrirProyectoPorIndice(currentModalIndex);
+}
+
+// Cerrar el modal
 function cerrarModal() {
   clearInterval(intervalId);
   document.getElementById('modal').classList.add('oculto');
 }
 
+// Controlar envío del formulario de contacto
 const form = document.getElementById('formulario');
 if (form) {
   form.addEventListener('submit', function (e) {
@@ -113,6 +115,7 @@ if (form) {
   });
 }
 
+// Carrusel en sección proyectos
 let currentSlide = 0;
 function moverCarrusel(direccion) {
   const slides = document.querySelectorAll('.proyecto');
@@ -127,48 +130,48 @@ function moverCarrusel(direccion) {
   }
 }
 
+// Mostrar solo el primer proyecto al cargar
 document.addEventListener('DOMContentLoaded', () => {
   const proyectos = document.querySelectorAll('.proyecto');
   proyectos.forEach(p => p.classList.add('oculto'));
   if (proyectos[0]) proyectos[0].classList.remove('oculto');
+
+  // Clic en tarjetas de proyecto
+  proyectos.forEach((proyecto, index) => {
+    proyecto.addEventListener('click', () => {
+      abrirProyectoPorIndice(index);
+    });
+  });
 });
 
-// Cerrar modal con Escape o clic fuera del contenido
-
-// Modificación aquí: ignorar click en botones de navegación
-
+// Cierre del modal al hacer clic fuera del contenido
 document.addEventListener('click', (e) => {
   const modal = document.getElementById('modal');
   const contenido = document.querySelector('.modal-contenido');
-  const clickedProyecto = e.target.closest('.proyecto');
   const clickedNav = e.target.closest('.modal-btn');
+  const clickedProyecto = e.target.closest('.proyecto');
 
-  if (!modal.classList.contains('oculto') && !contenido.contains(e.target) && !clickedProyecto && !clickedNav) {
+  if (!modal.classList.contains('oculto') && !contenido.contains(e.target) && !clickedNav && !clickedProyecto) {
     cerrarModal();
   }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') cerrarModal();
-});
-
+// Cierre con tecla Escape y navegación con flechas
 document.addEventListener('keydown', (e) => {
   const modalVisible = !document.getElementById('modal').classList.contains('oculto');
   if (!modalVisible) return;
 
+  if (e.key === 'Escape') cerrarModal();
   if (e.key === 'ArrowRight') navegarModal(1);
   if (e.key === 'ArrowLeft') navegarModal(-1);
 });
 
-function navegarModal(direccion) {
-  currentModalIndex = (currentModalIndex + direccion + proyectosData.length) % proyectosData.length;
-  abrirProyectoPorIndice(currentModalIndex);
-}
-
+// Botón flotante para ir arriba
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// Mostrar u ocultar botón según scroll
 window.addEventListener('scroll', () => {
   const boton = document.getElementById('btn-ir-arriba');
   if (window.scrollY > 300) {

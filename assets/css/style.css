@@ -129,6 +129,10 @@ input, textarea {
 footer {
   margin-top: 40px;
   text-align: center;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
   background-color: #ffffff;
   color: #0000ff;
   padding: 15px;
