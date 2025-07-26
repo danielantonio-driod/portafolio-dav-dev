@@ -267,3 +267,22 @@ footer {
     margin: 10px auto;
   }
 }
+
+#btn-contacto {
+  position: fixed;
+  bottom: 90px;
+  right: 30px;
+  background-color: #0000ff;
+  border: 3px solid #fff;
+  color: #fff;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  z-index: 1000;
+}
+
+#btn-contacto:hover {
+  background-color: #fff;
+  color: #0000ff;
+}

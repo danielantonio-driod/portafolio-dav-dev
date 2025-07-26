@@ -5,33 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daniel Arrieta | Fullstack Developer</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    footer {
+      margin-top: 80px; /* Separación del contenido superior */
+    }
+  </style>
 </head>
+
 <body>
   <header>
-  <nav>
-    <div class="nav-left">
-      <img src="/assets/img/logo.png" alt="dav-dev logo" class="logo">
-      <h1>Daniel Arrieta</h1>
-    </div>
-    <ul>
-      <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#sobre-mi">Sobre mí</a></li>
-      <li><a href="#proyectos">Proyectos</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-    <div class="nav-audio">
-      <iframe
-  src="https://www.youtube.com/embed/NEaQq4UdiIk?autoplay=1&mute=0&loop=1&playlist=NEaQq4UdiIk&controls=1&modestbranding=0&rel=0"
-  title="Drum & Bass 8bit"
-  frameborder="0"
-  allow="autoplay; encrypted-media"
-  allowfullscreen
-  style="width: 150px; height: 40px;">
-</iframe>
-
-    </div>
-  </nav>
-</header>
+    <nav>
+      <div class="nav-left">
+        <img src="/assets/img/logo.png" alt="dav-dev logo" class="logo">
+        <h1>Daniel Arrieta</h1>
+      </div>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#sobre-mi">Sobre mí</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <div class="nav-audio">
+        <iframe
+          src="https://www.youtube.com/embed/NEaQq4UdiIk?autoplay=1&mute=0&loop=1&playlist=NEaQq4UdiIk&controls=1&modestbranding=0&rel=0"
+          title="Drum & Bass 8bit"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          style="width: 150px; height: 40px;">
+        </iframe>
+      </div>
+    </nav>
+  </header>
 
   <main>
     <section id="inicio">
@@ -40,6 +45,7 @@
       <div class="botones">
         <a href="#proyectos" class="boton">Ver Proyectos</a>
         <a href="#contacto" class="boton">Contáctame</a>
+      </div>
     </section>
 
     <section id="sobre-mi">
@@ -53,31 +59,20 @@
         <button onclick="moverCarrusel(-1)">&#9664;</button>
         <button onclick="moverCarrusel(1)">&#9654;</button>
       </div>
-      <div class="proyecto">
-  <h3>Informativo_Cyberguard</h3>
-</div>
-<div class="proyecto">
-  <h3>Proyecto 2</h3>
-</div>
-<div class="proyecto">
-  <h3>Proyecto 3</h3>
-</div>
-<div class="proyecto">
-  <h3>Proyecto 4</h3>
-</div>
-<div class="proyecto">
-  <h3>Proyecto 5</h3>
-</div>
-
-      </div>
+      <div class="proyecto"><h3>Informativo_Cyberguard</h3></div>
+      <div class="proyecto"><h3>Proyecto 2</h3></div>
+      <div class="proyecto"><h3>Proyecto 3</h3></div>
+      <div class="proyecto"><h3>Proyecto 4</h3></div>
+      <div class="proyecto"><h3>Proyecto 5</h3></div>
     </section>
 
     <section id="contacto">
       <h2>Contacto</h2>
-      <form id="formulario">
-        <input type="text" id="nombre" placeholder="Tu nombre" required />
-        <input type="email" id="email" placeholder="Tu correo" required />
-        <textarea id="mensaje" placeholder="Tu mensaje" required></textarea>
+      <form id="formulario" action="/contacto/" method="POST" >
+      
+        <input type="text" name="nombre" placeholder="Tu nombre" required />
+        <input type="email" name="email" placeholder="Tu correo" required />
+        <textarea name="mensaje" placeholder="Tu mensaje" required></textarea>
         <button type="submit">Enviar</button>
       </form>
       <p id="confirmacion" class="oculto">¡Gracias por tu mensaje!</p>
@@ -97,20 +92,17 @@
   <footer>
     <p>&copy; 2025 Daniel Arrieta | Portafolio Fullstack</p>
     <div class="redes-sociales">
-  <a href="https://github.com/danielantonio-driod" target="_blank" aria-label="GitHub">
-    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="30" />
-  </a>
-  <a href="#" target="_blank" aria-label="LinkedIn">
-    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="30" />
-  </a>
-  <a href="#" target="_blank" aria-label="Twitter">
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" width="30" />
-  </a>
-</div>
-
+      <a href="https://github.com/danielantonio-driod" target="_blank" aria-label="GitHub">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="30" />
+      </a>
+      <a href="#" target="_blank" aria-label="LinkedIn">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="30" />
+      </a>
+      <a href="#" target="_blank" aria-label="Twitter">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" width="30" />
+      </a>
+    </div>
   </footer>
-
-<button id="btn-ir-arriba" onclick="scrollToTop()">⬆</button>
 
   <script src="assets/js/script.js"></script>
 </body>
