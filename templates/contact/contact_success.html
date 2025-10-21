@@ -1,0 +1,191 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Mensaje Enviado - Portfolio Django{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-animation {
+        animation: bounceIn 0.8s ease-out;
+    }
+    
+    @keyframes bounceIn {
+        0% {
+            transform: scale(0.3);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        70% {
+            transform: scale(0.9);
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
+    .success-icon {
+        font-size: 5rem;
+        color: #198754;
+    }
+    
+    .next-steps {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="text-center success-animation">
+                <div class="success-icon mb-4">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                
+                <h1 class="display-4 text-success mb-3">¡Mensaje Enviado!</h1>
+                <p class="lead text-muted mb-4">
+                    Tu mensaje ha sido recibido exitosamente. Nos pondremos en contacto contigo lo antes posible.
+                </p>
+                
+                <div class="alert alert-success border-0 shadow-sm mb-5" role="alert">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <strong>¿Qué sigue?</strong> Nuestro equipo revisará tu mensaje y te responderá en un plazo máximo de 24-48 horas.
+                </div>
+            </div>
+            
+            <div class="next-steps p-4 mb-5">
+                <h4 class="text-center mb-4">
+                    <i class="bi bi-list-check text-primary me-2"></i>
+                    Próximos Pasos
+                </h4>
+                
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <div class="mb-3">
+                            <i class="bi bi-envelope-open-fill text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6>1. Revisión</h6>
+                        <p class="small text-muted">Revisamos tu mensaje y lo asignamos al equipo correspondiente.</p>
+                    </div>
+                    
+                    <div class="col-md-4 text-center mb-3">
+                        <div class="mb-3">
+                            <i class="bi bi-people-fill text-warning" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6>2. Análisis</h6>
+                        <p class="small text-muted">Nuestros especialistas analizan tu consulta y preparan una respuesta.</p>
+                    </div>
+                    
+                    <div class="col-md-4 text-center mb-3">
+                        <div class="mb-3">
+                            <i class="bi bi-reply-fill text-success" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h6>3. Respuesta</h6>
+                        <p class="small text-muted">Te enviamos una respuesta detallada a tu correo electrónico.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-house-fill me-2"></i>
+                        Ir a Inicio
+                    </a>
+                    <a href="{% url 'contact:contact_form' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="bi bi-envelope-plus-fill me-2"></i>
+                        Enviar Otro Mensaje
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-telephone-fill text-primary mb-3" style="font-size: 2rem;"></i>
+                                <h6>¿Necesitas ayuda inmediata?</h6>
+                                <p class="small text-muted">Llámanos directamente</p>
+                                <strong>+57 XXX XXX XXXX</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-chat-dots-fill text-success mb-3" style="font-size: 2rem;"></i>
+                                <h6>Chat en Vivo</h6>
+                                <p class="small text-muted">Disponible de 9AM a 6PM</p>
+                                <button class="btn btn-sm btn-success" disabled>
+                                    <i class="bi bi-chat-fill me-1"></i>Iniciar Chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-question-circle-fill text-info mb-3" style="font-size: 2rem;"></i>
+                                <h6>Centro de Ayuda</h6>
+                                <p class="small text-muted">Preguntas frecuentes</p>
+                                <a href="#" class="btn btn-sm btn-info">
+                                    <i class="bi bi-book me-1"></i>Ver FAQ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar confetti si está disponible
+    if (typeof confetti !== 'undefined') {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+    
+    // Auto-redirect después de 10 segundos (opcional)
+    let countdown = 10;
+    const autoRedirect = document.createElement('div');
+    autoRedirect.className = 'alert alert-info text-center mt-4';
+    autoRedirect.innerHTML = `
+        <i class="bi bi-clock me-2"></i>
+        Serás redirigido a la página principal en <span id="countdown">${countdown}</span> segundos.
+        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="clearInterval(countdownInterval)">
+            Cancelar
+        </button>
+    `;
+    
+    // Comentar las siguientes líneas si no quieres auto-redirect
+    /*
+    document.querySelector('.container').appendChild(autoRedirect);
+    
+    const countdownInterval = setInterval(() => {
+        countdown--;
+        document.getElementById('countdown').textContent = countdown;
+        
+        if (countdown <= 0) {
+            window.location.href = "{% url 'home' %}";
+        }
+    }, 1000);
+    */
+});
+</script>
+{% endblock %}

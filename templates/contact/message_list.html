@@ -1,0 +1,437 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Gestión de Mensajes - Portfolio Django{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stats-card {
+        border-radius: 15px;
+        transition: transform 0.2s;
+    }
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+    .message-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid #dee2e6;
+    }
+    .message-card.unread {
+        border-left-color: #0d6efd;
+        background-color: #f8f9ff;
+    }
+    .message-card.high-priority {
+        border-left-color: #dc3545;
+    }
+    .message-card.urgent-priority {
+        border-left-color: #6f42c1;
+    }
+    .priority-badge {
+        font-size: 0.75rem;
+    }
+    .search-box {
+        border-radius: 25px;
+    }
+    .filter-section {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">
+                <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                Gestión de Mensajes
+            </h1>
+            <p class="text-muted mb-0">Administra todos los mensajes de contacto</p>
+        </div>
+        <div>
+            <a href="{% url 'dashboard:dashboard_home' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Volver al Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card stats-card border-0 shadow-sm bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">{{ stats.total }}</h3>
+                            <p class="mb-0">Total Mensajes</p>
+                        </div>
+                        <div class="ms-3">
+                            <i class="bi bi-envelope-fill" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card stats-card border-0 shadow-sm bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">{{ stats.new }}</h3>
+                            <p class="mb-0">Nuevos</p>
+                        </div>
+                        <div class="ms-3">
+                            <i class="bi bi-envelope-plus-fill" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card stats-card border-0 shadow-sm bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">{{ stats.unread }}</h3>
+                            <p class="mb-0">Sin Leer</p>
+                        </div>
+                        <div class="ms-3">
+                            <i class="bi bi-envelope-open-fill" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card stats-card border-0 shadow-sm bg-danger text-white">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">{{ stats.high_priority }}</h3>
+                            <p class="mb-0">Alta Prioridad</p>
+                        </div>
+                        <div class="ms-3">
+                            <i class="bi bi-exclamation-triangle-fill" style="font-size: 2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filter-section p-3 mb-4">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Buscar</label>
+                <input type="text" name="search" class="form-control search-box" 
+                       placeholder="Nombre, email, asunto o mensaje..." 
+                       value="{{ search_query }}">
+            </div>
+            
+            <div class="col-md-2">
+                <label class="form-label">Estado</label>
+                <select name="status" class="form-select">
+                    <option value="">Todos</option>
+                    {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <label class="form-label">Prioridad</label>
+                <select name="priority" class="form-select">
+                    <option value="">Todas</option>
+                    {% for value, label in priority_choices %}
+                        <option value="{{ value }}" {% if priority_filter == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <label class="form-label">Leído</label>
+                <select name="is_read" class="form-select">
+                    <option value="">Todos</option>
+                    <option value="true" {% if is_read_filter == 'true' %}selected{% endif %}>Leídos</option>
+                    <option value="false" {% if is_read_filter == 'false' %}selected{% endif %}>No leídos</option>
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search me-2"></i>Filtrar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de mensajes -->
+    <div class="row">
+        {% for message in messages %}
+            <div class="col-12 mb-3">
+                <div class="card message-card shadow-sm 
+                            {% if not message.is_read %}unread{% endif %}
+                            {% if message.priority == 'high' %}high-priority{% endif %}
+                            {% if message.priority == 'urgent' %}urgent-priority{% endif %}">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <h6 class="mb-0 me-3">
+                                                <a href="{% url 'contact:message_detail' message.id %}" 
+                                                   class="text-decoration-none">
+                                                    {{ message.subject }}
+                                                </a>
+                                            </h6>
+                                            
+                                            <!-- Badges -->
+                                            <span class="badge bg-{{ message.get_priority_color }} priority-badge me-2">
+                                                {{ message.get_priority_display }}
+                                            </span>
+                                            <span class="badge bg-{{ message.get_status_color }} priority-badge me-2">
+                                                {{ message.get_status_display }}
+                                            </span>
+                                            {% if not message.is_read %}
+                                                <span class="badge bg-primary priority-badge">Nuevo</span>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <p class="text-muted mb-2">
+                                            <i class="bi bi-person-fill me-1"></i>{{ message.name }}
+                                            <i class="bi bi-envelope-fill ms-3 me-1"></i>{{ message.email }}
+                                            {% if message.phone %}
+                                                <i class="bi bi-telephone-fill ms-3 me-1"></i>{{ message.phone }}
+                                            {% endif %}
+                                        </p>
+                                        
+                                        <p class="mb-0 text-truncate" style="max-width: 500px;">
+                                            {{ message.message|truncatechars:100 }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 text-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar-fill me-1"></i>
+                                    {{ message.created_at|date:"d/m/Y" }}<br>
+                                    <i class="bi bi-clock-fill me-1"></i>
+                                    {{ message.created_at|time:"H:i" }}
+                                </small>
+                            </div>
+                            
+                            <div class="col-md-2 text-end">
+                                <div class="btn-group-vertical" role="group">
+                                    <a href="{% url 'contact:message_detail' message.id %}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye-fill"></i> Ver
+                                    </a>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-info mark-read-btn" 
+                                            data-message-id="{{ message.id }}"
+                                            data-is-read="{{ message.is_read|yesno:'true,false' }}">
+                                        <i class="bi bi-{% if message.is_read %}envelope-open{% else %}envelope{% endif %}"></i>
+                                        {% if message.is_read %}No leído{% else %}Leído{% endif %}
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteModal{{ message.id }}">
+                                        <i class="bi bi-trash-fill"></i> Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de confirmación de eliminación -->
+            <div class="modal fade" id="deleteModal{{ message.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmar eliminación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Estás seguro de que quieres eliminar el mensaje de <strong>{{ message.name }}</strong>?</p>
+                            <p class="text-muted">Asunto: "{{ message.subject }}"</p>
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                Esta acción no se puede deshacer.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form method="post" action="{% url 'contact:delete_message' message.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash-fill me-2"></i>Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+                    <h4 class="text-muted mt-3">No hay mensajes</h4>
+                    <p class="text-muted">No se encontraron mensajes con los filtros seleccionados.</p>
+                    {% if search_query or status_filter or priority_filter or is_read_filter %}
+                        <a href="{% url 'contact:message_list' %}" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Limpiar filtros
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if messages.has_other_pages %}
+        <nav aria-label="Paginación de mensajes">
+            <ul class="pagination justify-content-center">
+                {% if messages.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if priority_filter %}&priority={{ priority_filter }}{% endif %}{% if is_read_filter %}&is_read={{ is_read_filter }}{% endif %}">Primera</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ messages.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if priority_filter %}&priority={{ priority_filter }}{% endif %}{% if is_read_filter %}&is_read={{ is_read_filter }}{% endif %}">Anterior</a>
+                    </li>
+                {% endif %}
+
+                <li class="page-item active">
+                    <span class="page-link">
+                        Página {{ messages.number }} de {{ messages.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if messages.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ messages.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if priority_filter %}&priority={{ priority_filter }}{% endif %}{% if is_read_filter %}&is_read={{ is_read_filter }}{% endif %}">Siguiente</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ messages.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if priority_filter %}&priority={{ priority_filter }}{% endif %}{% if is_read_filter %}&is_read={{ is_read_filter }}{% endif %}">Última</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Funcionalidad para marcar como leído/no leído
+    const markReadButtons = document.querySelectorAll('.mark-read-btn');
+    
+    markReadButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const messageId = this.dataset.messageId;
+            const isRead = this.dataset.isRead === 'true';
+            
+            fetch(`/contact/messages/${messageId}/read/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Actualizar el botón
+                    const icon = this.querySelector('i');
+                    const text = this.querySelector('span') || this;
+                    
+                    if (data.is_read) {
+                        icon.className = 'bi bi-envelope-open';
+                        if (text.textContent) text.textContent = ' No leído';
+                        this.dataset.isRead = 'true';
+                    } else {
+                        icon.className = 'bi bi-envelope';
+                        if (text.textContent) text.textContent = ' Leído';
+                        this.dataset.isRead = 'false';
+                    }
+                    
+                    // Actualizar la card
+                    const messageCard = this.closest('.message-card');
+                    if (data.is_read) {
+                        messageCard.classList.remove('unread');
+                    } else {
+                        messageCard.classList.add('unread');
+                    }
+                    
+                    // Mostrar mensaje de éxito
+                    showToast('Estado actualizado correctamente', 'success');
+                } else {
+                    showToast('Error al actualizar el estado', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error de conexión', 'error');
+            });
+        });
+    });
+    
+    // Función para mostrar toast notifications
+    function showToast(message, type) {
+        // Crear toast element
+        const toastHtml = `
+            <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : 'danger'} border-0" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi bi-${type === 'success' ? 'check-circle' : 'x-circle'}-fill me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `;
+        
+        // Agregar al container de toasts
+        let toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            document.body.appendChild(toastContainer);
+        }
+        
+        toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+        const toastElement = toastContainer.lastElementChild;
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+        
+        // Remover el toast después de que se oculte
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.remove();
+        });
+    }
+    
+    // Auto-actualizar cada 30 segundos
+    setInterval(() => {
+        // Solo actualizar si no hay modales abiertos
+        if (!document.querySelector('.modal.show')) {
+            location.reload();
+        }
+    }, 30000);
+});
+</script>
+{% endblock %}

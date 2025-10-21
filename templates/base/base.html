@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Daniel Arrieta | Fullstack Developer{% endblock %}</title>
+    
+    <!-- Fuentes 8bits -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- CSS Original del Portfolio -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/portfolio-style.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* Ajustes específicos para Django */
+        .django-content {
+            margin: 40px auto;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 20px;
+            border: 8px solid #000;
+        }
+        
+        .alert {
+            background-color: #ffcc00;
+            border: 3px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+        }
+        
+        .alert-success { background-color: #00ff00; }
+        .alert-danger { background-color: #ff0000; color: #fff; }
+        .alert-warning { background-color: #ffcc00; }
+        .alert-info { background-color: #0000ff; color: #fff; }
+        
+        .btn-django {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #ffcc00;
+            border: 3px solid #000;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000;
+            display: inline-block;
+            font-size: 10px;
+        }
+        
+        .btn-django:hover {
+            background-color: #000;
+            color: #ffcc00;
+        }
+        
+        .btn-primary { background-color: #0000ff; color: #fff; }
+        .btn-success { background-color: #00ff00; }
+        .btn-danger { background-color: #ff0000; color: #fff; }
+        .btn-warning { background-color: #ffcc00; }
+        
+        .form-control {
+            font-family: 'Press Start 2P', cursive;
+            padding: 10px;
+            border: 2px solid #000;
+            font-size: 10px;
+            background-color: #fff;
+        }
+        
+        .form-control:focus {
+            border-color: #0000ff;
+            outline: none;
+            box-shadow: 0 0 5px #0000ff;
+        }
+        
+        .table {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            border: 3px solid #000;
+        }
+        
+        .table th {
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #fff;
+            padding: 8px;
+        }
+        
+        .table td {
+            border: 1px solid #000;
+            padding: 8px;
+        }
+        
+        .badge {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            padding: 4px 8px;
+            border: 2px solid #000;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .pagination a {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0000ff;
+            color: #fff;
+            border: 2px solid #000;
+            padding: 8px 12px;
+            text-decoration: none;
+            font-size: 8px;
+        }
+        
+        .pagination a:hover {
+            background-color: #fff;
+            color: #0000ff;
+        }
+        
+        footer {
+            margin-top: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <img src="{% static 'img/logo.png' %}" alt="dav-dev logo" class="logo">
+                <h1>Daniel Arrieta</h1>
+            </div>
+            <ul>
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                <li><a href="{% url 'home' %}#sobre-mi">Sobre mí</a></li>
+                <li><a href="{% url 'home' %}#proyectos">Proyectos</a></li>
+                <li><a href="{% url 'contact:contact_form' %}">Contacto</a></li>
+                {% if user.is_authenticated %}
+                    {% if user.userprofile.can_access_dashboard %}
+                        <li><a href="{% url 'dashboard:dashboard_home' %}">Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Salir ({{ user.username }})</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Entrar</a></li>
+                    <li><a href="{% url 'register' %}">Registro</a></li>
+                {% endif %}
+            </ul>
+            <div class="nav-audio">
+                <iframe
+                    src="https://www.youtube.com/embed/NEaQq4UdiIk?autoplay=1&mute=0&loop=1&playlist=NEaQq4UdiIk&controls=1&modestbranding=0&rel=0"
+                    title="Drum & Bass 8bit"
+                    frameborder="0"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                    style="width: 150px; height: 40px;">
+                </iframe>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Daniel Arrieta | Portafolio Fullstack + Django</p>
+        <div class="redes-sociales">
+            <a href="https://github.com/danielantonio-driod" target="_blank" aria-label="GitHub">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" width="30" />
+            </a>
+            <a href="#" target="_blank" aria-label="LinkedIn">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="30" />
+            </a>
+            <a href="#" target="_blank" aria-label="Twitter">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" width="30" />
+            </a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Original del Portfolio -->
+    <script src="{% static 'js/portfolio-script.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
