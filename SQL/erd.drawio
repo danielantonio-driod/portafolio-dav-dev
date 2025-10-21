@@ -1,0 +1,59 @@
+<mxfile host="app.diagrams.net" modified="2025-09-03T00:00:00.000Z" agent="Mozilla/5.0" version="24.7.10" type="device">
+  <diagram id="erdMin" name="ERD">
+    <mxGraphModel dx="1100" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" page="1" pageScale="1" pageWidth="3300" pageHeight="2338">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+        <mxCell id="customers" value="customers
+----------------
+PK customer_id
+full_name
+email (UNQ)" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;fontFamily=Courier New;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="120" width="220" height="110" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="orders" value="orders
+----------------
+PK order_id
+FK customer_id → customers
+order_date
+status" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;fontFamily=Courier New;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="120" width="250" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="products" value="products
+----------------
+PK product_id
+name
+price
+stock" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;fontFamily=Courier New;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="120" y="320" width="220" height="120" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="order_items" value="order_items
+----------------
+PK (order_id, product_id)
+FK order_id → orders
+FK product_id → products
+quantity
+unit_price" style="shape=rectangle;whiteSpace=wrap;html=1;align=left;fontFamily=Courier New;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="300" width="280" height="150" as="geometry"/>
+        </mxCell>
+
+        <!-- Relaciones -->
+        <mxCell id="edge_orders_customers" edge="1" parent="1" source="orders" target="customers" style="endArrow=block;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge_oi_orders" edge="1" parent="1" source="order_items" target="orders" style="endArrow=block;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="edge_oi_products" edge="1" parent="1" source="order_items" target="products" style="endArrow=block;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
