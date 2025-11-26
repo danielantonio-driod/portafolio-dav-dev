@@ -1,13 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daniel Arrieta | Fullstack Developer</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Fuentes 8bits -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <!-- CSS Original del Portfolio -->
+  <link rel="stylesheet" href="static/css/portfolio-style.css">
+
   <style>
+    /* Ajustes específicos para versión estática */
+    .django-content {
+      margin: 40px auto;
+      max-width: 1000px;
+      background-color: #fff;
+      padding: 20px;
+      border: 8px solid #000;
+    }
+
+    .alert {
+      background-color: #ffcc00;
+      border: 3px solid #000;
+      padding: 10px;
+      margin: 10px 0;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+    }
+
+    .alert-success {
+      background-color: #00ff00;
+    }
+
+    .alert-danger {
+      background-color: #ff0000;
+      color: #fff;
+    }
+
+    .alert-warning {
+      background-color: #ffcc00;
+    }
+
+    .alert-info {
+      background-color: #0000ff;
+      color: #fff;
+    }
+
+    .btn-django {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #ffcc00;
+      border: 3px solid #000;
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #000;
+      display: inline-block;
+      font-size: 10px;
+    }
+
+    .btn-django:hover {
+      background-color: #000;
+      color: #ffcc00;
+    }
+
+    .btn-primary {
+      background-color: #0000ff;
+      color: #fff;
+    }
+
+    .btn-success {
+      background-color: #00ff00;
+    }
+
+    .btn-danger {
+      background-color: #ff0000;
+      color: #fff;
+    }
+
+    .btn-warning {
+      background-color: #ffcc00;
+    }
+
+    .form-control {
+      font-family: 'Press Start 2P', cursive;
+      padding: 10px;
+      border: 2px solid #000;
+      font-size: 10px;
+      background-color: #fff;
+    }
+
+    .form-control:focus {
+      border-color: #0000ff;
+      outline: none;
+      box-shadow: 0 0 5px #0000ff;
+    }
+
     footer {
-      margin-top: 80px; /* Separación del contenido superior */
+      margin-top: 80px;
     }
   </style>
 </head>
@@ -16,7 +109,7 @@
   <header>
     <nav>
       <div class="nav-left">
-        <img src="/assets/img/logo.png" alt="dav-dev logo" class="logo">
+        <img src="static/img/logo.png" alt="dav-dev logo" class="logo">
         <h1>Daniel Arrieta</h1>
       </div>
       <ul>
@@ -28,10 +121,7 @@
       <div class="nav-audio">
         <iframe
           src="https://www.youtube.com/embed/NEaQq4UdiIk?autoplay=1&mute=0&loop=1&playlist=NEaQq4UdiIk&controls=1&modestbranding=0&rel=0"
-          title="Drum & Bass 8bit"
-          frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
+          title="Drum & Bass 8bit" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
           style="width: 150px; height: 40px;">
         </iframe>
       </div>
@@ -43,14 +133,25 @@
       <h2>Desarrollador Fullstack</h2>
       <p>Construyendo soluciones web desde Chile para el mundo.</p>
       <div class="botones">
-        <a href="#proyectos" class="boton">Ver Proyectos</a>
         <a href="#contacto" class="boton">Contáctame</a>
       </div>
     </section>
 
     <section id="sobre-mi">
       <h2>Sobre mí</h2>
-      <p>Apasionado por la tecnología, con experiencia real en mecánica, logística y desarrollo. Me especializo en crear soluciones útiles para negocios reales.</p>
+      <p>
+        Apasionado por la tecnología, con experiencia real en mecánica, logística y desarrollo.
+        Me especializo en crear soluciones útiles para negocios reales usando tecnologías modernas.
+      </p>
+      <div class="detalle">
+        <h3>🚀 Habilidades:</h3>
+        <ul style="list-style: none; padding: 0; margin-top: 10px;">
+          <li>✅ HTML5, CSS3, JavaScript</li>
+          <li>✅ Python, Django</li>
+          <li>✅ Bases de datos SQL</li>
+          <li>✅ Git, GitHub</li>
+        </ul>
+      </div>
     </section>
 
     <section id="proyectos">
@@ -59,35 +160,86 @@
         <button onclick="moverCarrusel(-1)">&#9664;</button>
         <button onclick="moverCarrusel(1)">&#9654;</button>
       </div>
-      <div class="proyecto"><h3>Informativo_Cyberguard</h3></div>
-      <div class="proyecto"><h3>Proyecto 2</h3></div>
-      <div class="proyecto"><h3>Proyecto 3</h3></div>
-      <div class="proyecto"><h3>Proyecto 4</h3></div>
-      <div class="proyecto"><h3>Proyecto 5</h3></div>
+
+      <div class="proyecto">
+        <h3>Portfolio Personal</h3>
+        <div class="detalle">
+          <p><strong>Tecnologías:</strong> HTML, CSS, JavaScript</p>
+          <p><strong>Descripción:</strong></p>
+          <p>Este mismo sitio web, diseñado con una estética retro de 8-bits.</p>
+          <div style="margin-top: 15px;">
+            <a href="https://github.com/danielantonio-driod/portafolio-dav-dev" class="btn-django btn-primary">Ver
+              Código</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proyecto">
+        <h3>Informativo_Cyberguard</h3>
+        <div class="detalle">
+          <p><strong>Descripción:</strong> Página informativa de ciberseguridad.</p>
+          <p><strong>Tecnologías:</strong> HTML5, CSS3, JavaScript</p>
+          <a href="https://github.com/danielantonio-driod/m-dulo_2/tree/master/cyberguard" class="btn-django">Ver en
+            GitHub</a>
+        </div>
+      </div>
+
+      <div class="proyecto">
+        <h3>Próximos Proyectos</h3>
+        <div class="detalle">
+          <p><strong>En desarrollo:</strong></p>
+          <ul style="list-style: none; padding: 0;">
+            <li>🔄 Aplicaciones Web Fullstack</li>
+            <li>📊 Dashboards interactivos</li>
+            <li>📱 Aplicaciones móviles</li>
+          </ul>
+          <button class="btn-django" disabled>Próximamente</button>
+        </div>
+      </div>
     </section>
 
     <section id="contacto">
       <h2>Contacto</h2>
-      <form id="formulario" action="/contacto/" method="POST" >
-      
-        <input type="text" name="nombre" placeholder="Tu nombre" required />
-        <input type="email" name="email" placeholder="Tu correo" required />
-        <textarea name="mensaje" placeholder="Tu mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-      </form>
-      <p id="confirmacion" class="oculto">¡Gracias por tu mensaje!</p>
-    </section>
-  </main>
+      <div class="detalle" style="margin-bottom: 20px;">
+        <p>Envíame un mensaje directamente a mi correo.</p>
+      </div>
 
-  <div id="modal" class="oculto modal">
-    <div class="modal-contenido">
-      <span class="cerrar" onclick="cerrarModal()">&times;</span>
-      <h3 id="modal-titulo"></h3>
-      <div id="modal-imagenes" class="galeria"></div>
-      <p id="modal-descripcion"></p>
-      <a id="modal-github" href="#" target="_blank" class="boton-github">Ver en GitHub</a>
+      <form action="https://formsubmit.co/nice@dav-dev.dev" method="POST">
+        <input type="text" name="name" placeholder="Tu nombre completo" required />
+        <input type="email" name="email" placeholder="Tu correo electrónico" required />
+        <input type="tel" name="phone" placeholder="Tu teléfono (opcional)" />
+        <input type="text" name="subject" placeholder="Asunto del mensaje" required />
+        <input type="hidden" name="_next" value="http://localhost:8000/index.html">
+        <input type="hidden" name="_captcha" value="false">
+
+        <select name="priority"
+          style="font-family: 'Press Start 2P', cursive; padding: 10px; border: 2px solid #000; font-size: 10px;">
+          <option value="medium">Consulta General</option>
+          <option value="low">Saludo</option>
+          <option value="high">Propuesta de Trabajo</option>
+          <option value="urgent">Urgente</option>
+        </select>
+
+        <textarea name="message" placeholder="Tu mensaje (mínimo 10 caracteres)" required></textarea>
+
+        <button type="submit">Enviar Mensaje</button>
+      </form>
+    </section>
+
+    <!-- Modal para proyectos -->
+    <div id="modal" class="oculto modal">
+      <div class="modal-contenido">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <h3 id="modal-titulo"></h3>
+        <div id="modal-imagenes" class="galeria"></div>
+        <p id="modal-descripcion"></p>
+        <a id="modal-github" href="#" target="_blank" class="boton-github">Ver en GitHub</a>
+      </div>
     </div>
-  </div>
+
+    <!-- Botones flotantes -->
+    <button id="btn-ir-arriba" onclick="scrollToTop()">↑</button>
+  </main>
 
   <footer>
     <p>&copy; 2025 Daniel Arrieta | Portafolio Fullstack</p>
@@ -104,6 +256,8 @@
     </div>
   </footer>
 
-  <script src="assets/js/script.js"></script>
+  <!-- JavaScript Original del Portfolio -->
+  <script src="static/js/portfolio-script.js"></script>
 </body>
+
 </html>

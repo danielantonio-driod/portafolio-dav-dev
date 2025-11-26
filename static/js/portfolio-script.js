@@ -2,20 +2,28 @@
 // DATOS DE PROYECTOS
 // ========================
 const proyectosData = [
-  {
-    titulo: 'Informativo_Cyberguard',
-    descripcion: 'Pagina informativa de cyberseguridad.',
-    imagenes: [
-      '/assets/img/cg1.jpg',
-      '/assets/img/cg2.jpg',
-      '/assets/img/cg3.jpg'
-    ],
-    repo: 'https://github.com/danielantonio-driod/m-dulo_2/tree/master/cyberguard'
-  },
-  { titulo: 'Proyecto 2', descripcion: 'Este proyecto está en desarrollo, vuelve pronto.', imagenes: [], repo: '#' },
-  { titulo: 'Proyecto 3', descripcion: 'Este proyecto está en desarrollo, vuelve pronto.', imagenes: [], repo: '#' },
-  { titulo: 'Proyecto 4', descripcion: 'Este proyecto está en desarrollo, vuelve pronto.', imagenes: [], repo: '#' },
-  { titulo: 'Proyecto 5', descripcion: 'Este proyecto está en desarrollo, vuelve pronto.', imagenes: [], repo: '#' }
+    {
+        titulo: 'Portfolio Personal',
+        descripcion: 'Este sitio web, construido con HTML, CSS y JavaScript puro.',
+        imagenes: [],
+        repo: 'https://github.com/danielantonio-driod/portafolio-dav-dev'
+    },
+    {
+        titulo: 'Informativo_Cyberguard',
+        descripcion: 'Página informativa de ciberseguridad desarrollada con tecnologías web estándar.',
+        imagenes: [
+            'static/img/cg1.jpg',
+            'static/img/cg2.jpg',
+            'static/img/cg3.jpg'
+        ],
+        repo: 'https://github.com/danielantonio-driod/m-dulo_2/tree/master/cyberguard'
+    },
+    {
+        titulo: 'Próximos Proyectos',
+        descripcion: 'Más proyectos en camino...',
+        imagenes: [],
+        repo: '#'
+    }
 ];
 
 let intervalId;             // Para controlar el cambio de imagen automático
@@ -88,40 +96,6 @@ function navegarModal(direccion) {
 function cerrarModal() {
   clearInterval(intervalId);
   document.getElementById('modal').classList.add('oculto');
-}
-
-// ========================
-// ENVIAR FORMULARIO DE CONTACTO
-// ========================
-const form = document.getElementById("formulario");
-if (form) {
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const nombre = document.getElementById("nombre").value;
-    const email = document.getElementById("email").value;
-    const mensaje = document.getElementById("mensaje").value;
-
-    fetch("/api/contacto/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ nombre, email, mensaje }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.mensaje) {
-          document.getElementById("confirmacion").classList.remove("oculto");
-          form.reset();
-        } else {
-          alert("Ocurrió un error: " + data.error);
-        }
-      })
-      .catch((err) => {
-        alert("Error al enviar: " + err.message);
-      });
-  });
 }
 
 // ========================
