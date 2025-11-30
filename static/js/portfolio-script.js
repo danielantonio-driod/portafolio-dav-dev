@@ -127,9 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (proyectos[0]) proyectos[0].classList.remove('oculto');
 
   proyectos.forEach((proyecto, index) => {
-    proyecto.addEventListener('click', () => {
-      abrirProyectoPorIndice(index);
-    });
+    // Solo agregar el evento a los proyectos que no sean la sección de descargas
+    const isDescarga = proyecto.querySelector('a.btn-django.btn-success[download]');
+    if (!isDescarga) {
+      proyecto.addEventListener('click', () => {
+        abrirProyectoPorIndice(index);
+      });
+    }
   });
 });
 
