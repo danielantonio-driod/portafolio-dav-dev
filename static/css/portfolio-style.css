@@ -70,6 +70,33 @@ section {
   border: 8px solid #000;
 }
 
+.subtexto-inicio {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.inicio-tags {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.inicio-tags li {
+  background-color: #000;
+  color: #ffcc00;
+  border: 2px solid #0000ff;
+  padding: 6px 8px;
+  font-size: 9px;
+}
+
+.intro-proyectos {
+  font-size: 10px;
+  margin-bottom: 12px;
+}
+
 h1, h2, h3 {
   color: #000;
   margin-bottom: 10px;
@@ -91,6 +118,18 @@ button {
   border: 4px solid #000;
   cursor: pointer;
   display: none;
+}
+
+.proyecto h3 {
+  border-left: 8px solid #0000ff;
+  padding-left: 10px;
+}
+
+.proyecto-links {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .proyecto:not(.oculto) {
@@ -160,6 +199,12 @@ footer {
   width: 90%;
   text-align: center;
   box-shadow: 8px 8px 0 #000;
+}
+
+.modal-contenido img {
+  max-height: 380px;
+  object-fit: cover;
+  border: 3px solid #000;
 }
 
 .cerrar {
@@ -250,6 +295,14 @@ footer {
     font-size: 10px;
     padding: 6px 10px;
     word-break: break-word;
+  }
+
+  .inicio-tags li {
+    font-size: 8px;
+  }
+
+  .proyecto h3 {
+    font-size: 11px;
   }
 
   h1 {

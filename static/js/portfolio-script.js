@@ -3,25 +3,33 @@
 // ========================
 const proyectosData = [
     {
-        titulo: 'Portfolio Personal',
-        descripcion: 'Este sitio web, construido con HTML, CSS y JavaScript puro.',
-        imagenes: [],
-        repo: 'https://github.com/danielantonio-driod/portafolio-dav-dev'
+    titulo: 'ERP del Taller D-Labs Suite',
+    descripcion: 'Sistema interno para gestionar clientes, cotizaciones, ventas, inventario y finanzas en un flujo integrado.',
+    imagenes: [
+      'static/img/proyectos/erp-login.png',
+      'static/img/proyectos/erp-dashboard.png',
+      'static/img/proyectos/erp-clientes.png',
+      'static/img/proyectos/erp-cotizaciones.png',
+      'static/img/proyectos/erp-inventario.png'
+    ],
+    repo: 'https://soydlabs.com'
     },
     {
-        titulo: 'Informativo_Cyberguard',
-        descripcion: 'Página informativa de ciberseguridad desarrollada con tecnologías web estándar.',
+    titulo: 'Pagina Web del Taller (soydlabs.com)',
+    descripcion: 'Sitio publico del taller orientado a conversion, branding y acceso al portal de clientes.',
         imagenes: [
-            'static/img/cg1.jpg',
-            'static/img/cg2.jpg',
-            'static/img/cg3.jpg'
+      'static/img/proyectos/web-home.png',
+      'static/img/proyectos/web-login-portal.png',
+      'static/img/proyectos/web-portal.png'
         ],
-        repo: 'https://github.com/danielantonio-driod/m-dulo_2/tree/master/cyberguard'
+    repo: 'https://soydlabs.com'
     },
     {
-        titulo: 'Próximos Proyectos',
-        descripcion: 'Más proyectos en camino...',
-        imagenes: [],
+    titulo: 'IA Local - Agente Juan',
+    descripcion: 'Asistente de IA local para gestionar recursos del homelab y consultas operativas en lenguaje natural.',
+    imagenes: [
+      'static/img/proyectos/ia-juan.png'
+    ],
         repo: '#'
     }
 ];
@@ -45,6 +53,12 @@ function abrirProyectoPorIndice(index) {
   document.getElementById('modal-titulo').innerText = titulo;
   document.getElementById('modal-descripcion').innerText = descripcion;
   link.href = repo;
+
+  if (repo === '#') {
+    link.style.display = 'none';
+  } else {
+    link.style.display = 'inline-block';
+  }
 
   // Galería de imágenes rotativas si existen
   if (imagenes.length > 0) {
