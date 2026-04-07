@@ -223,6 +223,38 @@ footer {
   border: 3px solid #000;
 }
 
+/* Controles del modal */
+.modal-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 12px;
+}
+
+.modal-btn {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #0000ff;
+  color: #fff;
+  border: 2px solid #000;
+  padding: 8px 12px;
+  font-size: 9px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  background-color: #fff;
+  color: #0000ff;
+  box-shadow: 2px 2px 0 #000;
+}
+
+#modal-contador {
+  margin-top: 8px;
+  padding: 4px;
+  background-color: #ffcc00;
+  border: 2px solid #000;
+}
+
 .cerrar {
   position: absolute;
   top: 20px;

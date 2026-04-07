@@ -40,8 +40,11 @@ let currentModalIndex = 0;  // Índice del proyecto actual en el modal
 // ========================
 // ABRIR MODAL
 // ========================
+let currentImgIndex = 0;  // Índice actual de imagen en el modal
+
 function abrirProyectoPorIndice(index) {
   currentModalIndex = index;
+  currentImgIndex = 0;  // Reiniciar al primera imagen
   const { titulo, descripcion, imagenes, repo } = proyectosData[index];
   const modal = document.getElementById('modal');
   const galeria = document.getElementById('modal-imagenes');
@@ -63,15 +66,39 @@ function abrirProyectoPorIndice(index) {
   // Galería de imágenes rotativas si existen
   if (imagenes.length > 0) {
     let indexImg = 0;
+    const imgContainer = document.createElement('div');
+    imgContainer.style.position = 'relative';
+    imgContainer.style.width = '100%';
+    
     const img = document.createElement('img');
     img.src = imagenes[indexImg];
     img.alt = titulo;
     img.style.width = '100%';
-    galeria.appendChild(img);
+    imgContainer.appendChild(img);
+    
+    // Añadir contador de imágenes si hay más de una
+    if (imagenes.length > 1) {
+      const contador = document.createElement('div');
+      contador.id = 'modal-contador';
+      contador.style.textAlign = 'center';
+      contador.style.marginTop = '8px';
+      contador.style.fontSize = '10px';
+      contador.style.color = '#666';
+      contador.style.fontFamily = 'Press Start 2P';
+      contador.innerText = `${indexImg + 1} de ${imagenes.length}`;
+      imgContainer.appendChild(contador);
+    }
+    
+    galeria.appendChild(imgContainer);
 
     intervalId = setInterval(() => {
       indexImg = (indexImg + 1) % imagenes.length;
       img.src = imagenes[indexImg];
+      currentImgIndex = indexImg;
+      
+      // Actualizar contador
+      const cnt = document.getElementById('modal-contador');
+      if (cnt) cnt.innerText = `${indexImg + 1} de ${imagenes.length}`;
     }, 2500);
   }
 
@@ -83,8 +110,8 @@ function abrirProyectoPorIndice(index) {
     controles.id = 'modal-controles';
     controles.classList.add('modal-nav');
     controles.innerHTML = `
-      <button class="modal-btn" onclick="navegarModal(-1)">&#9664;</button>
-      <button class="modal-btn" onclick="navegarModal(1)">&#9654;</button>
+      <button class="modal-btn" onclick="navegarImagenModal(-1)">&#9664; Anterior</button>
+      <button class="modal-btn" onclick="navegarImagenModal(1)">Siguiente &#9654;</button>
     `;
     document.querySelector('.modal-contenido').appendChild(controles);
   }
@@ -95,6 +122,33 @@ function abrirProyectoPorIndice(index) {
   if (slides[index]) slides[index].classList.remove('oculto');
   currentSlide = index;
 }
+
+// ========================
+// NAVEGACIÓN ENTRE IMÁGENES DENTRO DEL MODAL
+// ========================
+function navegarImagenModal(direccion) {
+  const { imagenes } = proyectosData[currentModalIndex];
+  if (imagenes.length === 0) return;
+  
+  clearInterval(intervalId);  // Pausar el carrusel automático
+  
+  currentImgIndex = (currentImgIndex + direccion + imagenes.length) % imagenes.length;
+  const img = document.querySelector('#modal-imagenes img');
+  const cnt = document.getElementById('modal-contador');
+  
+  if (img) {
+    img.src = imagenes[currentImgIndex];
+    if (cnt) cnt.innerText = `${currentImgIndex + 1} de ${imagenes.length}`;
+  }
+  
+  // Reanudar carrusel automático
+  let autoIndex = currentImgIndex;
+  intervalId = setInterval(() => {
+    autoIndex = (autoIndex + 1) % imagenes.length;
+    if (img) img.src = imagenes[autoIndex];
+    if (cnt) cnt.innerText = `${autoIndex + 1} de ${imagenes.length}`;
+    currentImgIndex = autoIndex;
+  }, 2500);
 
 // ========================
 // NAVEGACIÓN ENTRE PROYECTOS
